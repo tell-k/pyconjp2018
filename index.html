@@ -107,12 +107,12 @@
 <li>プロセスにはリソースの制限がある</li>
 <li>プロセスには環境がある</li>
 <li>プロセスには引数がある</li>
+<li>プロセスには名前がある</li>
 </ul>
 </div>
 <div class="section" id="id8">
 <h2>目次<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>プロセスには名前がある</li>
 <li>プロセスには終了コードがある</li>
 <li>プロセスは子プロセスを作れる</li>
 <li>孤児プロセス</li>
@@ -190,12 +190,16 @@
 <div class="section" id="id15">
 <h2>プロセスID<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>ここからはプロセスの性質を簡単に確認しましょう。</li>
 <li>プロセスには固有の識別子( <strong>プロセスID</strong> ) が必ずつけられてます。</li>
 <li>省略されて <code class="docutils literal notranslate"><span class="pre">pid</span></code> と表現されます。</li>
 <li>例えば Pythonの対話モードで <code class="docutils literal notranslate"><span class="pre">os.getpid()</span></code> を実行すると、現在のプロセスIDが確認できる</li>
 <li>os.getpid が システムコール <code class="docutils literal notranslate"><span class="pre">getpid(2)</span></code> を実行している</li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="o">&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
+<span class="mi">16801</span> <span class="c1"># &lt;- プロセスID</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id16">
 <h2>プロセスIDの確認<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
@@ -228,10 +232,12 @@ CMD  ... 実行コマンド
 <span class="m">14455</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>ターミナル起動 -&gt; ターミナルがbashプロンプトを起動</li>
-<li>この場合、bashプロンプトの親プロセスが ターミナル となる</li>
-</ul>
+<p>例えばターミナル.app 起動 して、Bashのプロンプトが表示した場合</p>
+<ol class="arabic simple">
+<li>ターミナル.app のプロセス</li>
+<li>1を親に bashプロンプトの子プロセス</li>
+</ol>
+<p>という親子関係のプロセスが作られます</p>
 </div>
 <div class="section" id="id19">
 <h2>プロセスにはファイルディスクリプタがある<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
@@ -241,8 +247,8 @@ CMD  ... 実行コマンド
 <ul class="simple">
 <li>Unixシステムは全てをファイルとして扱う</li>
 <li>ソケットやパイプなどもファイル</li>
-<li>単純なファイルと区別をつけるためにここでは、総称的なファイルを <strong>リソース</strong> と呼びます</li>
-<li><strong>ファイルディスクリプタ(ファイル記述子)</strong> とは、リソースを管理するための識別子で、識別するための番号が振られていっます。</li>
+<li>ここでは、単純なファイルと区別をつけるために、この総称的なファイルを <strong>リソース</strong> と呼びます</li>
+<li><strong>ファイルディスクリプタ(ファイル記述子)</strong> とは、リソースを管理するための識別子で、識別するための番号が振られます。</li>
 </ul>
 </div>
 <div class="section" id="id21">
@@ -252,6 +258,10 @@ CMD  ... 実行コマンド
 <li>関係ない他のプロセスには共有されない。</li>
 <li>例えばファイルを開いて <code class="docutils literal notranslate"><span class="pre">fileno()</span></code> メソッドで調べるとファイルディスクリプタの番号が確認できます。</li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">3</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id22">
 <h2>なぜ3から採番される？<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
@@ -264,6 +274,15 @@ CMD  ... 実行コマンド
 </ul>
 </li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id23">
 <h2>ファイルディスクリプタは再利用される<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
@@ -271,12 +290,11 @@ CMD  ... 実行コマンド
 <li>ファイルディスクプリタとして管理するのは openされてるものだけ</li>
 <li>リソースを閉じたりしたら、ファイルディクリプタ番号は再利用される</li>
 </ul>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
-<span class="go">3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
-<span class="go">3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
-<span class="go">3</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span> <span class="c1"># =&gt; 3</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test2.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span> <span class="c1"># =&gt; 3 上と同じ</span>
 </pre></div>
 </div>
 </div>
@@ -292,7 +310,7 @@ CMD  ... 実行コマンド
 <li><code class="docutils literal notranslate"><span class="pre">resource</span></code> モジュールに諸々掲載されている</li>
 <li><code class="docutils literal notranslate"><span class="pre">getrlimit(2)</span></code> のシステムコール利用して取得できる</li>
 </ul>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">resource</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">resource</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resource</span><span class="o">.</span><span class="n">getrlimit</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RLIMIT_NOFILE</span><span class="p">)</span>
 <span class="go">(4864, 9223372036854775807)</span>
 
@@ -306,7 +324,7 @@ CMD  ... 実行コマンド
 </ul>
 </div>
 <div class="section" id="id26">
-<h2>声に出して読みたい日本語<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<h2>今日の声に出して読みたい日本語<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png" style="width: 100%;" /></a>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">resource.RLIM_INFINITY</span></code> の数値と一緒</li>
@@ -322,7 +340,7 @@ CMD  ... 実行コマンド
 <li>試しにファイルディスクリプタの上限数を3にする</li>
 <li>ファイルを一回でも開いたら <code class="docutils literal notranslate"><span class="pre">Too</span> <span class="pre">may</span> <span class="pre">open</span> <span class="pre">files.</span></code> というエラーがでる</li>
 </ul>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">resource</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">resource</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resource</span><span class="o">.</span><span class="n">setrlimit</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RLIMIT_NOFILE</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
@@ -370,10 +388,20 @@ pyconjp2018
 <div class="section" id="id32">
 <h2>プロセスには名前がある<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>プロセスにほあ名前があり、取得したり、変更したりが可能</li>
-<li>Python では プロセス名は <strong>標準ライブラリでは変更できない</strong></li>
-<li>py-setproctitle(<a class="reference external" href="https://github.com/dvarrazzo/py-setproctitle">https://github.com/dvarrazzo/py-setproctitle</a>) というC拡張で変更</li>
+<li>プロセスに名前があり、取得したり、変更したりが可能</li>
+<li>Rubyでは <code class="docutils literal notranslate"><span class="pre">$PROGRAM_NAME</span></code> or <code class="docutils literal notranslate"><span class="pre">$0</span></code> でプロセス名を取得設定可能</li>
+<li>Python では同じようなものはなさそうでした。私がしらないだけかもしれません。</li>
+<li>py-setproctitle(<a class="reference external" href="https://pypi.org/project/setproctitle/">https://pypi.org/project/setproctitle/</a>) というC拡張のライブラリがある。</li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">setproctitle</span> <span class="kn">import</span> <span class="n">setproctitle</span><span class="p">,</span> <span class="n">getproctitle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getproctitle</span><span class="p">()</span>
+<span class="go">&#39;python&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">setproctitle</span><span class="p">(</span><span class="s2">&quot;newprocname&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getproctitle</span><span class="p">()</span>
+<span class="go">&#39;newprocname&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id33">
 <h2>プロセスには終了コードがある<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
@@ -664,6 +692,7 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 <li>シグナルの話</li>
 <li>プロセス間通信の話</li>
 <li>端末プロセスを作る話</li>
+<li>POSIXの話</li>
 <li>preforkサーバの話</li>
 </ul>
 </div>

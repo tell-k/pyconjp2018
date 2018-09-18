@@ -173,7 +173,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * 例えば Pythonの対話モードで ``os.getpid()`` を実行すると、現在のプロセスIDが確認できる
 * os.getpid が システムコール ``getpid(2)`` を実行している
   
-.. code-block::python
+.. code-block:: python
 
  >> import os 
  >> os.getpid() 
@@ -181,6 +181,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 
 プロセスIDの確認
 =====================
+
 
 *  ``ps(1)`` コマンドでそのプロセスの状態を確認できます
 
@@ -232,7 +233,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * 関係ない他のプロセスには共有されない。
 * 例えばファイルを開いて ``fileno()`` メソッドで調べるとファイルディスクリプタの番号が確認できます。
 
-.. cod-block:: pycon
+.. cod-block:: python
 
  >>> open('test.txt', 'w').fileno()
  3
@@ -247,7 +248,7 @@ TRACERY - システム開発チーム向け知識共有サービス
   * 標準出力 ... 1
   * 標準エラー出力 ... 2 
 
-.. cod-block:: pycon
+.. cod-block:: python
 
   >>> import sys
   >>> sys.stdin.fileno()
@@ -263,7 +264,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * ファイルディスクプリタとして管理するのは openされてるものだけ
 * リソースを閉じたりしたら、ファイルディクリプタ番号は再利用される
 
-.. code-block:: pycon
+.. code-block:: python
 
   >>> open('test.txt', mode='r').fileno()
   3
@@ -284,7 +285,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * ``resource`` モジュールに諸々掲載されている
 * ``getrlimit(2)`` のシステムコール利用して取得できる
 
-.. code-block:: pycon
+.. code-block:: python
 
  >>> import resource
  >>> resource.getrlimit(resource.RLIMIT_NOFILE)
@@ -314,7 +315,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * 試しにファイルディスクリプタの上限数を3にする
 * ファイルを一回でも開いたら ``Too may open files.`` というエラーがでる
 
-.. code-block:: pycon
+.. code-block:: python
 
   >>> import resource
   >>> resource.setrlimit(resource.RLIMIT_NOFILE, (3, 3))

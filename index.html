@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ざっくりUnixプロセス</title>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  </head>
+  <body style='display: none'>
+    
+  <div class="section" id="unix">
+<h1>ざっくりUnixプロセス<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">tell-k</div>
+<div class="line">Pycon JP 2018</div>
+</div>
+<div class="section" id="id1">
+<h2>お前だれよ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<img alt="https://pbs.twimg.com/profile_images/775582814871752704/J1TaucBz_400x400.jpg" src="https://pbs.twimg.com/profile_images/775582814871752704/J1TaucBz_400x400.jpg" />
+<img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/vxjmiemo.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/vxjmiemo.png" />
+<ul class="simple">
+<li>tell-k</li>
+<li>BeProud.inc</li>
+<li>情弱プログラマー</li>
+<li><a class="reference external" href="https://twitter.com/tell_k">https://twitter.com/tell_k</a></li>
+<li><a class="reference external" href="https://tell-k.github.io/pyconjp2018/">https://tell-k.github.io/pyconjp2018/</a></li>
+</ul>
+</div>
+<div class="section" id="connpass-it">
+<h2>connpass - エンジニアをつなぐIT勉強会支援プラットフォーム<a class="headerlink" href="#connpass-it" title="Permalink to this headline">¶</a></h2>
+<div class="figure" id="id62">
+<img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="http://connpass.com/">http://connpass.com/</a></span></p>
+</div>
+<ul class="simple">
+<li>connpassステッカーあります。ブースにまで是非お越しください。</li>
+</ul>
+</div>
+<div class="section" id="pyq-python">
+<h2>PyQ - 本気でプログラミングを学びたい人のPythonオンライン学習サービス<a class="headerlink" href="#pyq-python" title="Permalink to this headline">¶</a></h2>
+<div class="figure" id="id63">
+<a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png" style="width: 80%;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference external" href="https://pyq.jp/">https://pyq.jp/</a></span></p>
+</div>
+<ul class="simple">
+<li>ブースにて <strong>無料体験コードをお配りしています</strong> 。是非お越しください。</li>
+</ul>
+</div>
+<div class="section" id="tracery">
+<h2>TRACERY - システム開発チーム向け知識共有サービス<a class="headerlink" href="#tracery" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/b26511423900438399ebbf3c56650781.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/b26511423900438399ebbf3c56650781.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/b26511423900438399ebbf3c56650781.png" style="width: 80%;" /></a>
+</div>
+<ul class="simple">
+<li>現在 <strong>鋭意開発中</strong> の新サービスです</li>
+<li><strong>サービス紹介動画</strong> をブースで流しています。是非お越しください。</li>
+<li>βユーザーを募集しています。</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>目的/動機<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>私はWebアプリを開発するところからプログラマをスタート</li>
+<li>LinuxとかUnix系OSの知識がなくて働き始めは辛かった記憶</li>
+<li>数年前に読んだ「なるほどUnixプロセス」という本がよかった</li>
+<li>「あの頃よんでおけばよかった」と思った</li>
+<li>サンプルコードがRubyだったので「じゃぁPythonに置き換えて紹介してみよう」と思った次第です</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>なるほどUnixプロセス<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="https://tatsu-zine.com/images/books/87/cover_l.jpg"><img alt="https://tatsu-zine.com/images/books/87/cover_l.jpg" src="https://tatsu-zine.com/images/books/87/cover_l.jpg" style="width: 40%;" /></a>
+</div>
+<div class="section" id="id4">
+<h2>対象<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>プログラミングを学び始めた人たち</li>
+<li>この辺の話をすっ飛ばしてしまったここまで辿り着いてしまった僕みたいな人たち</li>
+<li>Unixプロセスとうまいことやっていきたい人たち</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>目標<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg"><img alt="https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg" src="https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg" style="width: 50%;" /></a>
+<ul class="simple">
+<li><strong>なるほど</strong> とは言わないまでも <strong>ざっくりよしわかった</strong> となる感じ</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>前提<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>サンプルコードは Python3.7 です。</li>
+<li>OS は MacOS 10.13.6 です。</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>目次<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>システムコール</li>
+<li>プロセス</li>
+<li>プロセスにはIDがある</li>
+<li>プロセスには親がある</li>
+<li>プロセスにはファイルディスクリプタがある</li>
+<li>プロセスにはリソースの制限がある</li>
+<li>プロセスには環境がある</li>
+<li>プロセスには引数がある</li>
+<li>プロセスには名前がある</li>
+<li>プロセスには終了コードがある</li>
+<li>プロセスは子プロセスを作れる</li>
+<li>孤児プロセス</li>
+<li>プロセスは優しい</li>
+<li>プロセスは待てる</li>
+<li>ゾンビプロセス</li>
+<li>デーモンプロセス</li>
+<li>今日話さなかったこと</li>
+<li>参考文献</li>
+<li>まとめ</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h2>システムコール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id9">
+<h2>システムコール<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>基本的にプログラムはCPUの二種類のモードで実行されます。</li>
+<li><strong>カーネル</strong> と <strong>ユーザーランド</strong><ul>
+<li>カーネルモードとよんだりユーザー空間と読んだり、微妙に異なる呼ばれ方をします</li>
+</ul>
+</li>
+<li>例えば自分で書いたPythonコードとかはユーザーランドです。</li>
+<li>カーネルはデバイス・ハードウェアとやりとりする中間層<ul>
+<li>ファイルシステム、ネットワーク etc</li>
+</ul>
+</li>
+<li>デバイス・ハードウェアと直接やりとり可能なのは <strong>カーネル</strong> のみ</li>
+<li>ユーザーランドからカーネルと直接やりとりすることも基本できない</li>
+<li>ユーザーランドからカーネルをやりとりできる仕組みを <strong>システムコール</strong> と呼ぶ</li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h2>システムコール<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="figure" id="id64">
+<a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">via <a class="reference external" href="http://gihyo.jp/book/2018/978-4-7741-9607-7">［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識 第2章 &gt; システムコール</a></span></p>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>システムコール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>システムコールとかの使い方は <strong>man</strong> コマンドで調べられます。</li>
+<li><strong>open(2)</strong> の <strong>(2)</strong> の部分は man のセクションで、セクション2が <strong>システムコール</strong> です。</li>
+<li>セクション例<ul>
+<li>セクション 1: だれもが実行できるユーザーコマンド</li>
+<li>セクション 2: システムコール(カーネルが提供する関数)</li>
+<li>セクション 3: サブルーチン(C ライブラリ関数)</li>
+<li>セクション 4: デバイス(/dev ディレクトリのスペシャルファイル)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h2>プロセス<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id13">
+<h2>プロセス<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>プロセスとはUnixシステムの肝であり原子です。</li>
+<li>あらゆる <strong>コードはプロセス上で実行されます</strong></li>
+<li><strong>プログラムの実行時にプロセスも生まれ、プログラム終了後にプロセスも死にます</strong></li>
+<li>ずっと生き続けるようなプロセスもある。 -&gt; <strong>デーモンプロセス</strong> (後述)</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>身近な例だと データベースサーバ、Webサーバとか、専用のプロセスがずっと動いてる</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id">
+<h2>プロセスにはIDがある<a class="headerlink" href="#id" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id14">
+<h2>プロセスID<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>ここからはプロセスの性質を簡単に確認しましょう。</li>
+<li>プロセスには固有の識別子( <strong>プロセスID</strong> ) が必ずつけられてます。</li>
+<li>省略されて <code class="docutils literal notranslate"><span class="pre">pid</span></code> と表現されます。</li>
+<li>例えば Pythonの対話モードで <code class="docutils literal notranslate"><span class="pre">os.getpid()</span></code> を実行すると、現在のプロセスIDが確認できる</li>
+<li>os.getpid が システムコール <code class="docutils literal notranslate"><span class="pre">getpid(2)</span></code> を実行している</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h2>プロセスIDの確認<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ps(1)</span></code> コマンドでそのプロセスの状態を確認できます</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ps -p  <span class="m">16801</span>
+
+  PID TTY           TIME CMD
+<span class="m">16801</span> ttys003    <span class="m">0</span>:00.04 /usr/local/Cellar/python/3.7.0/~省略~/Python
+
+PID  ... プロセスID
+TTY  ... 仮想端末ファイル
+TIME ... CPU使用時間
+CMD  ... 実行コマンド
+</pre></div>
+</div>
+</div>
+<div class="section" id="id16">
+<h2>プロセスには親がいる<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id17">
+<h2>プロセスには親がいる<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>プロセスには親プロセスがいます。</li>
+<li><code class="docutils literal notranslate"><span class="pre">getppid(2)</span></code> で調べらる</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; import os
+&gt;&gt;&gt; os.getppid<span class="o">()</span>
+<span class="m">14455</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>ターミナル起動 -&gt; ターミナルがbashプロンプトを起動</li>
+<li>この場合、bashプロンプトの親プロセスが ターミナル となる</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h2>プロセスにはファイルディスクリプタがある<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id19">
+<h2>ファイルディスクリプタとは？<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Unixシステムは全てをファイルとして扱う</li>
+<li>ソケットやパイプなどもファイル</li>
+<li>単純なファイルと区別をつけるためにここでは、総称的なファイルを <strong>リソース</strong> と呼びます</li>
+<li><strong>ファイルディスクリプタ(ファイル記述子)</strong> とは、リソースを管理するための識別子で、識別するための番号が振られていっます。</li>
+</ul>
+</div>
+<div class="section" id="id20">
+<h2>プロセスとともに生まれ・死ぬ<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>リソース</strong> を開いた時などにファイルディスクリプタは生成・採番されます。</li>
+<li>関係ない他のプロセスには共有されない。</li>
+<li>例えばファイルを開いて <code class="docutils literal notranslate"><span class="pre">fileno()</span></code> メソッドで調べるとファイルディスクリプタの番号が確認できます。</li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h2>なぜ3から採番される？<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>同一のプロセスで新たにリソースを開いたり・書いたりしようとすると3から始まる。なぜなのか？</li>
+<li>プロセスは、 <strong>最初から3つのファイルディスクリプタを用意済み</strong> だから<ul>
+<li>標準入力 … 0</li>
+<li>標準出力 … 1</li>
+<li>標準エラー出力 … 2</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h2>ファイルディスクリプタは再利用される<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>ファイルディスクプリタとして管理するのは openされてるものだけ</li>
+<li>リソースを閉じたりしたら、ファイルディクリプタ番号は再利用される</li>
+</ul>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id23">
+<h2>プロセスにはリソースの制限がある<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id24">
+<h2>プロセスにはリソースの制限がある<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>リソースには諸々設定上の上限などがある</li>
+<li>カーネルによって <strong>1プロセス毎</strong> にリソースが制限が設定されてる</li>
+<li>例えばファイルディスクリプタ数の上限 を確認してみましょう。</li>
+<li><code class="docutils literal notranslate"><span class="pre">resource</span></code> モジュールに諸々掲載されている</li>
+<li><code class="docutils literal notranslate"><span class="pre">getrlimit(2)</span></code> のシステムコール利用して取得できる</li>
+</ul>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">resource</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resource</span><span class="o">.</span><span class="n">getrlimit</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RLIMIT_NOFILE</span><span class="p">)</span>
+<span class="go">(4864, 9223372036854775807)</span>
+
+<span class="go">最初の数字がソフトリミット</span>
+<span class="go">次の数字がハードリミット</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>ソフトリミットは最低限これくらいまでに抑えて置けば良いという数値</li>
+<li>ハードリミットはなんかありえないくらいデカイ数字</li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h2>声に出して読みたい日本語<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png" style="width: 100%;" /></a>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">resource.RLIM_INFINITY</span></code> の数値と一緒</li>
+<li>上限というよりは、<strong>制限が無い</strong> くらいの意味合い</li>
+<li>64bitの符号付の整数値の最大値</li>
+<li>調べると割とポピュラーな数字らしいことがわかります。</li>
+</ul>
+</div>
+<div class="section" id="id26">
+<h2>制限を変えることもできる<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">setrlimit(2)</span></code> を利用</li>
+<li>試しにファイルディスクリプタの上限数を3にする</li>
+<li>ファイルを一回でも開いたら <code class="docutils literal notranslate"><span class="pre">Too</span> <span class="pre">may</span> <span class="pre">open</span> <span class="pre">files.</span></code> というエラーがでる</li>
+</ul>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">resource</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resource</span><span class="o">.</span><span class="n">setrlimit</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RLIMIT_NOFILE</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">  OSError</span>: <span class="n">[Errno 24] Too many open files: &#39;test.txt&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id27">
+<h2>プロセスには環境がある<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id28">
+<h2>プロセスには環境がある<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>いわゆる環境変数</li>
+<li>親プロセスより <code class="docutils literal notranslate"><span class="pre">引き継ぎます</span></code></li>
+<li>単純に変更しても親プロセスの環境変数には影響がないです。</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ MESSAGE=&#39;pyconjp2018.&#39; python -c &quot;import os; print(os.getenv(&#39;MESSAGE&#39;))&quot;
+pyconjp2018
+</pre></div>
+</div>
+</div>
+<div class="section" id="id29">
+<h2>プロセスには引数がある<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>プロセスもといコマンドラインは引数を受け取れます。</li>
+<li>引数は <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> に実行ファイル名とともに格納されている</li>
+<li>第一引数に実行ファイル名が格納されています。</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># show_argv.py</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="c1"># 単純に引数を表示するだけ</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python show_argv.py arg1 arg2
+<span class="o">[</span><span class="s1">&#39;show_argv.py&#39;</span>, <span class="s1">&#39;arg1&#39;</span>, <span class="s1">&#39;arg2&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id30">
+<h2>プロセスには名前がある<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id31">
+<h2>プロセスには名前がある<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>プロセスにほあ名前があり、取得したり、変更したりが可能</li>
+<li>Python では プロセス名は <strong>標準ライブラリでは変更できない</strong></li>
+<li>py-setproctitle(<a class="reference external" href="https://github.com/dvarrazzo/py-setproctitle">https://github.com/dvarrazzo/py-setproctitle</a>) というC拡張で変更</li>
+</ul>
+</div>
+<div class="section" id="id32">
+<h2>プロセスには終了コードがある<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id33">
+<h2>プロセスには終了コードがある<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>0 を返すのが慣習的に <strong>正常終了</strong></li>
+<li>それ以外を返すのが慣習的に <strong>異常終了</strong></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">exit</span><span class="p">()</span> <span class="c1">#=&gt; 引数無しは0</span>
+<span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#=&gt; 異常終了</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>終了時に処理を挟み込むことも可能</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+   <span class="k">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">atexit</span>
+<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">hello</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>via <a class="reference external" href="https://docs.python.org/ja/3/library/atexit.html#atexit-example">https://docs.python.org/ja/3/library/atexit.html#atexit-example</a></p>
+</div>
+<div class="section" id="id34">
+<h2>プロセスは子プロセスを作れる<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id35">
+<h2>プロセスは子プロセスを作れる<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">fork(2)</span></code> システムコールで子プロセスが作れる</li>
+<li>子プロセスは</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>親プロセスで使われてる全てのメモリーのコピーを引き継ぐ</li>
+<li>親プロセスのファイルディスクリプタも引き継ぐ</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Pythonでは <code class="docutils literal notranslate"><span class="pre">os.fork</span></code> を利用することで子プロセスを作れます。</li>
+</ul>
+</div>
+<div class="section" id="id36">
+<h2>実行するとどうなるか?<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">():</span>
+   <span class="k">print</span><span class="p">(</span><span class="s1">&#39;spam&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+   <span class="k">print</span><span class="p">(</span><span class="s1">&#39;ham&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id37">
+<h2>こうなる<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>// 実行結果
+spam
+ham
+</pre></div>
+</div>
+<p>なぜなのか？</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">fork(2)</span></code> は親プロセスのコピーである</li>
+<li>forkした時点からの処理の実行が分岐する</li>
+<li>子プロセス での <code class="docutils literal notranslate"><span class="pre">os.fork</span></code> の 戻り値は <code class="docutils literal notranslate"><span class="pre">0</span></code> になる</li>
+</ul>
+</div>
+<div class="section" id="id38">
+<h2>確認<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;親プロセス: {os.getpid()}&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">():</span> <span class="c1"># &lt;= 子プロセスはここから始まる</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;親プロセス: {os.getpid()}&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;子プロセス: {os.getpid()}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>// 実行結果
+親プロセス: <span class="m">88220</span>
+親プロセス: <span class="m">88220</span>
+子プロセス: <span class="m">88221</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id39">
+<h2>孤児プロセス<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id40">
+<h2>孤児プロセス<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>子プロセスは端末からの制御( <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> )とかは基本受け付けない。</li>
+<li>親が死んでも子プロセスは生き続けます。</li>
+<li>これを <strong>孤児プロセス</strong> と呼びます。</li>
+<li>簡単にコードで再現してみるとこうです。</li>
+</ul>
+</div>
+<div class="section" id="id41">
+<h2>孤児プロセス - 実行結果<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python orphan_process.py
+親プロセスは死んだ
+$ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Terminalに戻る
+孤児として生きてる <span class="m">1</span>
+孤児として生きてる <span class="m">2</span>
+孤児として生きてる <span class="m">3</span>
+孤児として生きてる <span class="m">4</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id42">
+<h2>プロセスは優しい<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id43">
+<h2>プロセスは優しい<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">fork(2)</span></code> は親の完全なコピーを生成する</li>
+<li>メモリ上のデータもコピーするので単純に2倍となる</li>
+<li>物理的に全てのコピーを最初から用意するのは処理のオーバーヘッドが大きい</li>
+<li><strong>CoW(Copy on Write)</strong> という仕組みが導入されている</li>
+<li>CoW では参照のみしかない場合には、親も子もメモリー上の同じデータを共有している</li>
+<li>書き込みが発生した時にだけメモリーコピーする。</li>
+<li><a class="reference external" href="http://gihyo.jp/book/2018/978-4-7741-9607-7">［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識</a> 第5章に詳しく乗ってます。</li>
+</ul>
+</div>
+<div class="section" id="id44">
+<h2>プロセスは待てる<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>親プロセスは、子プロセスが終わるまで待てる</li>
+<li><code class="docutils literal notranslate"><span class="pre">os.wait</span></code> で待つことが可能</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">():</span>
+   <span class="n">os</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="c1"># 子プロセスが終了するまで待つ</span>
+   <span class="nb">exit</span><span class="p">(</span><span class="s1">&#39;親プロセスは死んだ&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;孤児として生きてる {i}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 実行結果</span>
+<span class="n">孤児として生きてる</span> <span class="mi">0</span>
+<span class="n">孤児として生きてる</span> <span class="mi">1</span>
+<span class="n">孤児として生きてる</span> <span class="mi">2</span>
+<span class="n">孤児として生きてる</span> <span class="mi">3</span>
+<span class="n">孤児として生きてる</span> <span class="mi">4</span>
+<span class="n">親プロセスは死んだ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id45">
+<h2>複数のプロセスを待つ<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">wait</span></code> は子プロセスのが <strong>どれかが終わるまで待つ</strong></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># ランダムで1〜5秒待つ子プロセスを生成する</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;終了プロセスID {pid}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id46">
+<h2>ゾンビプロセス<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id47">
+<h2>ゾンビプロセスとは<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>親プロセスが <code class="docutils literal notranslate"><span class="pre">wait</span></code> で子プロセスの終了ステータスを要求しない</li>
+<li>この場合、カーネルは子プロセスの終了情報を、キューとして持ちづける</li>
+<li>子プロセスの情報は残りづつけるので <strong>リソースの無駄となる</strong></li>
+<li>このような状態を <strong>ゾンビプロセス</strong> という</li>
+</ul>
+</div>
+<div class="section" id="id48">
+<h2>ゾンビプロセス確認<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span> <span class="c1"># =&gt; 終了した子プロセスID 92763</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 状態を確認する</span>
+
+$ ps -ho pid,state -p <span class="m">92763</span>
+  PID STAT
+<span class="m">92763</span> Z+ <span class="c1"># &lt;= Z+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id49">
+<h2>孤児とゾンビの違いは？<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>孤児は先に親が死んでしまったプロセス</li>
+<li>ゾンビは先に自分が死んでwait待ちのプロセス</li>
+</ul>
+</div>
+<div class="section" id="id50">
+<h2>デーモンプロセス<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id51">
+<h2>デーモンプロセス<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>端末から制御されるのではなく、バックグラウンドで動作するプロセス</li>
+<li>Webサーバやデータベースサーバのように常に動作しているようなプロセス</li>
+<li>システム上の一番最初のプロセスは <code class="docutils literal notranslate"><span class="pre">init</span></code> プロセス (pid=1, ppid=0)</li>
+</ul>
+</div>
+<div class="section" id="id52">
+<h2>デーモン化<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>デーモン化(<code class="docutils literal notranslate"><span class="pre">daemonize</span></code>)</li>
+<li>デーモン化はプロセスを完全に制御端末やシグナルから切り離したい</li>
+<li>完全に切り離すために、double fork をするという手法が一般的</li>
+<li>see <a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3_(%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2)">デーモン_(ソフトウェア)</a></li>
+</ul>
+</div>
+<div class="section" id="id54">
+<h2>デーモン化<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 子プロセス生成</span>
+<span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">pid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="c1"># 親死</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 子プロセスを制御端末から切り離すk</span>
+<span class="n">os</span><span class="o">.</span><span class="n">setsid</span><span class="p">()</span>
+
+<span class="c1"># 孫プロセス生成 &lt;- 完全に制御端末から切り離される</span>
+<span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">pid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Daemon PID {pid}&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ディレクトリ消されても動く</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># デーモンには不要なので標準ストリームを潰す</span>
+<span class="n">devnull</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;/dev/null&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">devnull</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">devnull</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">devnull</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">devnull</span><span class="p">)</span>
+
+<span class="c1"># デーモン化したい処理</span>
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id55">
+<h2>標準のデーモン化<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>PEP 3143 – Standard daemon process library(<a class="reference external" href="https://www.python.org/dev/peps/pep-3143/">https://www.python.org/dev/peps/pep-3143/</a>)</li>
+<li>一応PEPにはある。ステータスは Deffered(繰越？)</li>
+<li>リファレンス実装が PyPI にあります。<ul>
+<li><a class="reference external" href="https://pypi.org/project/python-daemon/">https://pypi.org/project/python-daemon/</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id56">
+<h2>今日話さなかったこと<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>シグナルの話</li>
+<li>プロセス間通信の話</li>
+<li>端末プロセスを作る話</li>
+<li>preforkサーバの話</li>
+</ul>
+</div>
+<div class="section" id="id57">
+<h2>参考書籍<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>なるほどUnixプロセス ― Rubyで学ぶUnixの基礎<ul>
+<li><a class="reference external" href="https://tatsu-zine.com/books/naruhounix">https://tatsu-zine.com/books/naruhounix</a></li>
+</ul>
+</li>
+<li>［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識<ul>
+<li><a class="reference external" href="http://gihyo.jp/book/2018/978-4-7741-9607-7">http://gihyo.jp/book/2018/978-4-7741-9607-7</a></li>
+<li>図と説明がわかりやすく書かれている</li>
+</ul>
+</li>
+<li>詳解システムパフォーマンス<ul>
+<li><a class="reference external" href="https://www.oreilly.co.jp/books/9784873117904/">https://www.oreilly.co.jp/books/9784873117904/</a></li>
+<li>パフォーマンスチューニングが主題ですが、基礎的な話がしっかり書かれています。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id58">
+<h2>参考書籍<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Goならわかるシステムプログラミング<ul>
+<li><a class="reference external" href="https://www.lambdanote.com/products/go">https://www.lambdanote.com/products/go</a></li>
+<li>golangにおけるシステムコール周辺の話が充実してます</li>
+<li>システムコールをモニタリングする方法とかもある</li>
+</ul>
+</li>
+<li>詳解Unixプログラミング<ul>
+<li><a class="reference external" href="https://www.amazon.co.jp/dp/B00KRB9U8K/">https://www.amazon.co.jp/dp/B00KRB9U8K/</a></li>
+<li>Pythonで学ぶ「詳解 UNIXプログラミング」(その0)</li>
+<li><a class="reference external" href="https://atsuoishimoto.hatenablog.com/entry/20110307/1299455750">https://atsuoishimoto.hatenablog.com/entry/20110307/1299455750</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id59">
+<h2>感謝<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>また参考にさせていただいた資料、本の著者の皆さま。本当ににありがとうございました。</li>
+<li>参考文献</li>
+</ul>
+</div>
+<div class="section" id="id60">
+<h2>まとめ<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>プロセスはUnixの原子である。</li>
+<li>あらゆるプログラムはプロセス上で動かす。</li>
+<li>プロセスには様々な特性がある。</li>
+</ul>
+</div>
+<div class="section" id="id61">
+<h2>ご静聴ありがとうございました<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+  <div id="help">
+      Use the left and right arrow keys or click the left and right
+      edges of the page to navigate between slides.<br>
+      (Press 'H' or navigate to hide this message.)
+  </div>
+  </body>
+  <script type="text/javascript" src="_static/js/initialize.js"></script>
+  <script type="text/javascript" src="_static/js/slides.js"></script>
+</html>

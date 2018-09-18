@@ -486,7 +486,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 * これを **孤児プロセス** と呼びます。
 * 簡単にコードで再現してみるとこうです。
 
-.. code-block:: 
+.. code-block:: python
 
   import os
   import time
@@ -578,6 +578,15 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
      pid = os.wait()
      print(f'終了プロセスID {pid}')
 
+複数のプロセスを待つ
+========================
+
+:: 
+
+ 終了プロセスID (26238, 0)
+ 終了プロセスID (26236, 0)
+ 終了プロセスID (26237, 0)
+
 
 ゾンビプロセス
 ========================
@@ -585,6 +594,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 ゾンビプロセスとは
 ======================
 
+* 子プロセスが先に終了
 * 親プロセスが ``wait`` で子プロセスの終了ステータスを要求しない
 * この場合、カーネルは子プロセスの終了情報を、キューとして持ちづける
 * 子プロセスの情報は残りづつけるので **リソースの無駄となる**
@@ -602,8 +612,9 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
   pid = os.fork()
   if pid == 0:
       time.sleep(1)
-      sys.exit()
-  
+      sys.exit() # 先に子が終了
+   
+  # os.waitしない
   print(pid) # => 終了した子プロセスID 92763
   time.sleep(10)
 

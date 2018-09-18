@@ -31,7 +31,7 @@
 </div>
 <div class="section" id="connpass-it">
 <h2>connpass - エンジニアをつなぐIT勉強会支援プラットフォーム<a class="headerlink" href="#connpass-it" title="Permalink to this headline">¶</a></h2>
-<div class="figure" id="id63">
+<div class="figure" id="id64">
 <img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png" />
 <p class="caption"><span class="caption-text"><a class="reference external" href="http://connpass.com/">http://connpass.com/</a></span></p>
 </div>
@@ -41,7 +41,7 @@
 </div>
 <div class="section" id="pyq-python">
 <h2>PyQ - 本気でプログラミングを学びたい人のPythonオンライン学習サービス<a class="headerlink" href="#pyq-python" title="Permalink to this headline">¶</a></h2>
-<div class="figure" id="id64">
+<div class="figure" id="id65">
 <a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png" style="width: 80%;" /></a>
 <p class="caption"><span class="caption-text"><a class="reference external" href="https://pyq.jp/">https://pyq.jp/</a></span></p>
 </div>
@@ -148,7 +148,7 @@
 </div>
 <div class="section" id="id11">
 <h2>システムコール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
-<div class="figure" id="id65">
+<div class="figure" id="id66">
 <a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-text">via <a class="reference external" href="http://gihyo.jp/book/2018/978-4-7741-9607-7">［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識 第2章 &gt; システムコール</a></span></p>
 </div>
@@ -502,6 +502,17 @@ ham
 <li>これを <strong>孤児プロセス</strong> と呼びます。</li>
 <li>簡単にコードで再現してみるとこうです。</li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">():</span>
+   <span class="nb">exit</span><span class="p">(</span><span class="s1">&#39;親プロセスは死んだ&#39;</span><span class="p">)</span> <span class="c1"># 親プロセスはforkした瞬間に死ぬ</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+   <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;孤児として生きてる {i}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id42">
 <h2>孤児プロセス - 実行結果<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
@@ -581,19 +592,28 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 </div>
 </div>
 <div class="section" id="id47">
-<h2>ゾンビプロセス<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
+<h2>複数のプロセスを待つ<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">終了プロセスID</span> <span class="p">(</span><span class="mi">26238</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">終了プロセスID</span> <span class="p">(</span><span class="mi">26236</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">終了プロセスID</span> <span class="p">(</span><span class="mi">26237</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id48">
-<h2>ゾンビプロセスとは<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h2>
+<h2>ゾンビプロセス<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id49">
+<h2>ゾンビプロセスとは<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li>子プロセスが先に終了</li>
 <li>親プロセスが <code class="docutils literal notranslate"><span class="pre">wait</span></code> で子プロセスの終了ステータスを要求しない</li>
 <li>この場合、カーネルは子プロセスの終了情報を、キューとして持ちづける</li>
 <li>子プロセスの情報は残りづつけるので <strong>リソースの無駄となる</strong></li>
 <li>このような状態を <strong>ゾンビプロセス</strong> という</li>
 </ul>
 </div>
-<div class="section" id="id49">
-<h2>ゾンビプロセス確認<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id50">
+<h2>ゾンビプロセス確認<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -601,8 +621,9 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 <span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span> <span class="c1"># 先に子が終了</span>
 
+<span class="c1"># os.waitしない</span>
 <span class="k">print</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span> <span class="c1"># =&gt; 終了した子プロセスID 92763</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
@@ -615,26 +636,26 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id50">
-<h2>孤児とゾンビの違いは？<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id51">
+<h2>孤児とゾンビの違いは？<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>孤児は先に親が死んでしまったプロセス</li>
 <li>ゾンビは先に自分が死んでwait待ちのプロセス</li>
 </ul>
 </div>
-<div class="section" id="id51">
-<h2>デーモンプロセス<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="id52">
 <h2>デーモンプロセス<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id53">
+<h2>デーモンプロセス<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>端末から制御されるのではなく、バックグラウンドで動作するプロセス</li>
 <li>Webサーバやデータベースサーバのように常に動作しているようなプロセス</li>
 <li>システム上の一番最初のプロセスは <code class="docutils literal notranslate"><span class="pre">init</span></code> プロセス (pid=1, ppid=0)</li>
 </ul>
 </div>
-<div class="section" id="id53">
-<h2>デーモン化<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id54">
+<h2>デーモン化<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>デーモン化(<code class="docutils literal notranslate"><span class="pre">daemonize</span></code>)</li>
 <li>デーモン化はプロセスを完全に制御端末やシグナルから切り離したい</li>
@@ -642,8 +663,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 <li>see <a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3_(%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2)">デーモン_(ソフトウェア)</a></li>
 </ul>
 </div>
-<div class="section" id="id55">
-<h2>デーモン化<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id56">
+<h2>デーモン化<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 子プロセス生成</span>
 <span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">pid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -675,8 +696,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id56">
-<h2>標準のデーモン化<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id57">
+<h2>標準のデーモン化<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>PEP 3143 – Standard daemon process library(<a class="reference external" href="https://www.python.org/dev/peps/pep-3143/">https://www.python.org/dev/peps/pep-3143/</a>)</li>
 <li>一応PEPにはある。ステータスは Deffered(繰越？)</li>
@@ -686,8 +707,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </li>
 </ul>
 </div>
-<div class="section" id="id57">
-<h2>今日話さなかったこと<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id58">
+<h2>今日話さなかったこと<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>シグナルの話</li>
 <li>プロセス間通信の話</li>
@@ -696,8 +717,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 <li>preforkサーバの話</li>
 </ul>
 </div>
-<div class="section" id="id58">
-<h2>参考書籍<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id59">
+<h2>参考書籍<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>なるほどUnixプロセス ― Rubyで学ぶUnixの基礎<ul>
 <li><a class="reference external" href="https://tatsu-zine.com/books/naruhounix">https://tatsu-zine.com/books/naruhounix</a></li>
@@ -715,8 +736,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </li>
 </ul>
 </div>
-<div class="section" id="id59">
-<h2>参考書籍<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id60">
+<h2>参考書籍<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Goならわかるシステムプログラミング<ul>
 <li><a class="reference external" href="https://www.lambdanote.com/products/go">https://www.lambdanote.com/products/go</a></li>
@@ -732,23 +753,23 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </li>
 </ul>
 </div>
-<div class="section" id="id60">
-<h2>感謝<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id61">
+<h2>感謝<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>また参考にさせていただいた資料、本の著者の皆さま。本当ににありがとうございました。</li>
 <li>参考文献</li>
 </ul>
 </div>
-<div class="section" id="id61">
-<h2>まとめ<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id62">
+<h2>まとめ<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスはUnixの原子である。</li>
 <li>あらゆるプログラムはプロセス上で動かす。</li>
 <li>プロセスには様々な特性がある。</li>
 </ul>
 </div>
-<div class="section" id="id62">
-<h2>ご静聴ありがとうございました<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id63">
+<h2>ご静聴ありがとうございました<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

@@ -192,3 +192,13 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 up: clean html
+
+
+upload:
+	make clean && make html
+	git co gh-pages
+	cp -pr _build/html/* ./
+	git add .
+	git commit -m 'update gh-pages'
+	git push origin gh-pages
+	git co master

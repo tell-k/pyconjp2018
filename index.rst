@@ -96,11 +96,11 @@ TRACERY - システム開発チーム向け知識共有サービス
 * プロセスにはリソースの制限がある
 * プロセスには環境がある
 * プロセスには引数がある
+* プロセスには名前がある
 
 目次
 ==========================================
 
-* プロセスには名前がある
 * プロセスには終了コードがある
 * プロセスは子プロセスを作れる
 * 孤児プロセス
@@ -171,13 +171,12 @@ TRACERY - システム開発チーム向け知識共有サービス
 プロセスID
 =====================
 
-* ここからはプロセスの性質を簡単に確認しましょう。
 * プロセスには固有の識別子( **プロセスID** ) が必ずつけられてます。
 * 省略されて ``pid`` と表現されます。
 * 例えば Pythonの対話モードで ``os.getpid()`` を実行すると、現在のプロセスIDが確認できる
 * os.getpid が システムコール ``getpid(2)`` を実行している
   
-.. code-block::python
+.. code-block:: python
 
  >> import os 
  >> os.getpid() 
@@ -215,8 +214,12 @@ TRACERY - システム開発チーム向け知識共有サービス
  >>> os.getppid()
  14455
 
-* ターミナル起動 -> ターミナルがbashプロンプトを起動
-* この場合、bashプロンプトの親プロセスが ターミナル となる
+例えばターミナル.app 起動 して、Bashのプロンプトが表示した場合
+
+1. ターミナル.app のプロセス
+2. 1を親に bashプロンプトの子プロセス
+
+という親子関係のプロセスが作られます
 
 プロセスにはファイルディスクリプタがある
 =================================================
@@ -226,8 +229,8 @@ TRACERY - システム開発チーム向け知識共有サービス
 
 * Unixシステムは全てをファイルとして扱う
 * ソケットやパイプなどもファイル
-* 単純なファイルと区別をつけるためにここでは、総称的なファイルを **リソース** と呼びます
-* **ファイルディスクリプタ(ファイル記述子)** とは、リソースを管理するための識別子で、識別するための番号が振られていっます。
+* ここでは、単純なファイルと区別をつけるために、この総称的なファイルを **リソース** と呼びます
+* **ファイルディスクリプタ(ファイル記述子)** とは、リソースを管理するための識別子で、識別するための番号が振られます。
 
 プロセスとともに生まれ・死ぬ
 ================================
@@ -236,7 +239,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * 関係ない他のプロセスには共有されない。
 * 例えばファイルを開いて ``fileno()`` メソッドで調べるとファイルディスクリプタの番号が確認できます。
 
-.. cod-block:: pycon
+.. code-block:: python
 
  >>> open('test.txt', 'w').fileno()
  3
@@ -251,7 +254,7 @@ TRACERY - システム開発チーム向け知識共有サービス
   * 標準出力 ... 1
   * 標準エラー出力 ... 2 
 
-.. cod-block:: pycon
+.. code-block:: python
 
   >>> import sys
   >>> sys.stdin.fileno()
@@ -267,14 +270,13 @@ TRACERY - システム開発チーム向け知識共有サービス
 * ファイルディスクプリタとして管理するのは openされてるものだけ
 * リソースを閉じたりしたら、ファイルディクリプタ番号は再利用される
 
-.. code-block:: pycon
+.. code-block:: python
 
-  >>> open('test.txt', mode='r').fileno()
-  3
-  >>> open('test.txt', mode='r').fileno()
-  3
-  >>> open('test.txt', mode='r').fileno()
-  3
+  with open('test.txt', mode='w') as fp:
+      print(fp.fileno()) # => 3
+
+  with open('test2.txt', mode='w') as fp:
+      print(fp.fileno()) # => 3 上と同じ
 
 プロセスにはリソースの制限がある
 ==================================
@@ -288,7 +290,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * ``resource`` モジュールに諸々掲載されている
 * ``getrlimit(2)`` のシステムコール利用して取得できる
 
-.. code-block:: pycon
+.. code-block:: python
 
  >>> import resource
  >>> resource.getrlimit(resource.RLIMIT_NOFILE)
@@ -300,8 +302,8 @@ TRACERY - システム開発チーム向け知識共有サービス
 * ソフトリミットは最低限これくらいまでに抑えて置けば良いという数値
 * ハードリミットはなんかありえないくらいデカイ数字
 
-声に出して読みたい日本語
-====================================
+今日の声に出して読みたい日本語
+========================================
 
 .. image:: https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png
    :width: 100%
@@ -318,7 +320,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * 試しにファイルディスクリプタの上限数を3にする
 * ファイルを一回でも開いたら ``Too may open files.`` というエラーがでる
 
-.. code-block:: pycon
+.. code-block:: python
 
   >>> import resource
   >>> resource.setrlimit(resource.RLIMIT_NOFILE, (3, 3))
@@ -367,9 +369,20 @@ TRACERY - システム開発チーム向け知識共有サービス
 プロセスには名前がある
 ==============================
 
-* プロセスにほあ名前があり、取得したり、変更したりが可能
-* Python では プロセス名は **標準ライブラリでは変更できない**
-* py-setproctitle(https://github.com/dvarrazzo/py-setproctitle) というC拡張で変更
+* プロセスに名前があり、取得したり、変更したりが可能
+* Rubyでは ``$PROGRAM_NAME`` or ``$0`` でプロセス名を取得設定可能
+* Python では同じようなものはなさそうでした。私がしらないだけかもしれません。
+* py-setproctitle(https://pypi.org/project/setproctitle/) というC拡張のライブラリがある。
+
+.. code-block:: python
+
+  >>> from setproctitle import setproctitle, getproctitle
+  >>> getproctitle()
+  'python'
+  >>> setproctitle("newprocname")
+  >>> getproctitle()
+  'newprocname'
+  >>>
 
 プロセスには終了コードがある
 ==========================================
@@ -473,7 +486,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 * これを **孤児プロセス** と呼びます。
 * 簡単にコードで再現してみるとこうです。
 
-.. code-block:: 
+.. code-block:: python
 
   import os
   import time
@@ -565,6 +578,15 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
      pid = os.wait()
      print(f'終了プロセスID {pid}')
 
+複数のプロセスを待つ
+========================
+
+:: 
+
+ 終了プロセスID (26238, 0)
+ 終了プロセスID (26236, 0)
+ 終了プロセスID (26237, 0)
+
 
 ゾンビプロセス
 ========================
@@ -572,6 +594,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 ゾンビプロセスとは
 ======================
 
+* 子プロセスが先に終了
 * 親プロセスが ``wait`` で子プロセスの終了ステータスを要求しない
 * この場合、カーネルは子プロセスの終了情報を、キューとして持ちづける
 * 子プロセスの情報は残りづつけるので **リソースの無駄となる**
@@ -589,8 +612,9 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
   pid = os.fork()
   if pid == 0:
       time.sleep(1)
-      sys.exit()
-  
+      sys.exit() # 先に子が終了
+   
+  # os.waitしない
   print(pid) # => 終了した子プロセスID 92763
   time.sleep(10)
 
@@ -676,6 +700,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 * シグナルの話
 * プロセス間通信の話
 * 端末プロセスを作る話
+* POSIXの話
 * preforkサーバの話
 
 参考書籍

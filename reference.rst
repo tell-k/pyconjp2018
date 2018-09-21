@@ -3,22 +3,22 @@
 
 
 『なるほどUnixプロセス』付録のSpyglassを起動する
-https://qiita.com/mokrai/items/3c60c622f71925cf55d7
+ https://qiita.com/mokrai/items/3c60c622f71925cf55d7
 
 ApacheのMPMについて - shibainu55日記
-http://d.hatena.ne.jp/shibainu55/20080810/1218464434
+ http://d.hatena.ne.jp/shibainu55/20080810/1218464434
 
 Nginxの仕組みについて入門 | Goldstine研究所
-https://blog.mosuke.tech/entry/2016/06/04/180122/
+ https://blog.mosuke.tech/entry/2016/06/04/180122/
 
 apacheとnginxの性能比較 of A-frontier | 株式会社エーフロンティア
-http://www.a-frontier.jp/tecreport/pg141.html
+ http://www.a-frontier.jp/tecreport/pg141.html
 
 Python 3 の asyncio で http サーバーを書く
-https://qiita.com/t2y/items/d17c4a696a9ac567ca49
+ https://qiita.com/t2y/items/d17c4a696a9ac567ca49
 
 Python Advanced: Fork and Processes
-https://www.python-course.eu/forking.php
+ https://www.python-course.eu/forking.php
 
 Unixデーモンの仕組み - OTOBANK Engineering Blog
 https://engineering.otobank.co.jp/entry/2015/03/12/135500

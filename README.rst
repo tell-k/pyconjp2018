@@ -1,7 +1,7 @@
 Pycon JP 2018 の発表資料です。
 
 .. image:: https://tell-k.github.io/pyconjp2018/_static/img/ogp.png
-   :width: 70%
+  :width: 10%
 
 * Pythonでざっくり学ぶUnixプロセス
 * https://tell-k.github.io/pyconjp2018/

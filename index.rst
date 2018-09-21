@@ -64,20 +64,20 @@ TRACERY - システム開発チーム向け知識共有サービス
 なるほどUnixプロセス
 =====================================
 
-.. image:: https://tatsu-zine.com/images/books/87/cover_l.jpg
+.. image:: _static/img/working_with_unix_process.jpg
    :width: 40%
 
 対象
 =====================================
 
 * プログラミングを学び始めた人たち
-* この辺の話をすっ飛ばしてしまったここまで辿り着いてしまった僕みたいな人たち
+* この辺の話をすっ飛ばして、ここまで辿り着いてしまった僕みたいな人たち
 * Unixプロセスとうまいことやっていきたい人たち
 
 目標
 =====================================
 
-.. image:: https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg
+.. image:: _static/img/genbaneko.jpg
    :width: 50%
 
 * **なるほど** とは言わないまでも **ざっくりよしわかった** となる感じ
@@ -139,7 +139,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 システムコール
 ================================
 
-.. figure:: https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png
+.. figure:: _static/img/system_call.png
  :width: 100%
 
  via `［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識 第2章 > システムコール <http://gihyo.jp/book/2018/978-4-7741-9607-7>`_

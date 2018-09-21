@@ -194,11 +194,11 @@ pseudoxml:
 up: clean html
 
 
-upload:
+update_slides:
 	make clean && make html
 	git co gh-pages
 	cp -pr _build/html/* ./
 	git add .
-	git commit -m 'update gh-pages'
+	git commit -m 'update slides'
 	git push origin gh-pages
 	git co master

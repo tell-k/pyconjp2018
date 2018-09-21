@@ -68,8 +68,5 @@ Chapter 4     Processes
 subprocess – プロセスを生成して連携する - Python Module of the Week
  http://ja.pymotw.com/2/subprocess/
 
-【ps・kill】実行中のプロセス表示と強制終了
- https://qiita.com/shuntaro_tamura/items/4016868bda604baeac3c
-
 2015年Webサーバアーキテクチャ序論 - ゆううきブログ
  https://blog.yuuk.io/entry/2015-webserver-architecture

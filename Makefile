@@ -194,7 +194,7 @@ pseudoxml:
 up: clean html
 
 
-update_slides:
+deploy:
 	make clean && make html
 	git co gh-pages
 	cp -pr _build/html/* ./

@@ -1,5 +1,5 @@
 ==========================================================
-ざっくりUnixプロセス
+Pythonでざっくり学ぶUnixプロセス
 ==========================================================
 
 | tell-k
@@ -17,7 +17,11 @@
 * https://twitter.com/tell_k
 * https://tell-k.github.io/pyconjp2018/
 
-connpass - エンジニアをつなぐIT勉強会支援プラットフォーム 
+.. rst-class:: speakernote
+
+  speaker note test
+
+connpass - エンジニアをつなぐIT勉強会支援プラットフォーム
 ================================================================
 
 .. figure:: https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png
@@ -32,7 +36,7 @@ PyQ - 本気でプログラミングを学びたい人のPythonオンライン�
 .. figure:: https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png
    :width: 80%
 
-   https://pyq.jp/  
+   https://pyq.jp/
 
 * ブースにて **無料体験コードをお配りしています** 。是非お越しください。
 
@@ -76,7 +80,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 .. image:: https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg
    :width: 50%
 
-* **なるほど** とは言わないまでも **ざっくりよしわかった** となる感じ 
+* **なるほど** とは言わないまでも **ざっくりよしわかった** となる感じ
 
 
 前提
@@ -119,7 +123,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 ===========================
 
 * 基本的にプログラムはCPUの二種類のモードで実行されます。
-* **カーネル** と **ユーザーランド**  
+* **カーネル** と **ユーザーランド**
 
   * カーネルモードとよんだりユーザー空間と読んだり、微妙に異なる呼ばれ方をします
 
@@ -137,7 +141,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 
 .. figure:: https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png
  :width: 100%
- 
+
  via `［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識 第2章 > システムコール <http://gihyo.jp/book/2018/978-4-7741-9607-7>`_
 
 システムコール
@@ -148,7 +152,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 * セクション例
 
   * セクション 1: だれもが実行できるユーザーコマンド
-  * セクション 2: システムコール(カーネルが提供する関数) 
+  * セクション 2: システムコール(カーネルが提供する関数)
   * セクション 3: サブルーチン(C ライブラリ関数)
   * セクション 4: デバイス(/dev ディレクトリのスペシャルファイル)
 
@@ -158,7 +162,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 プロセス
 ===============
 
-* プロセスとはUnixシステムの肝であり原子です。 
+* プロセスとはUnixシステムの肝であり原子です。
 * あらゆる **コードはプロセス上で実行されます**
 * **プログラムの実行時にプロセスも生まれ、プログラム終了後にプロセスも死にます**
 * ずっと生き続けるようなプロセスもある。 -> **デーモンプロセス** (後述)
@@ -175,11 +179,11 @@ TRACERY - システム開発チーム向け知識共有サービス
 * 省略されて ``pid`` と表現されます。
 * 例えば Pythonの対話モードで ``os.getpid()`` を実行すると、現在のプロセスIDが確認できる
 * os.getpid が システムコール ``getpid(2)`` を実行している
-  
+
 .. code-block:: python
 
- >> import os 
- >> os.getpid() 
+ >> import os
+ >> os.getpid()
  16801 # <- プロセスID
 
 プロセスIDの確認
@@ -188,7 +192,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 *  ``ps(1)`` コマンドでそのプロセスの状態を確認できます
 
 .. code-block:: bash
- 
+
  $ ps -p  16801
 
    PID TTY           TIME CMD
@@ -252,7 +256,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 
   * 標準入力 ... 0
   * 標準出力 ... 1
-  * 標準エラー出力 ... 2 
+  * 標準エラー出力 ... 2
 
 .. code-block:: python
 
@@ -296,8 +300,8 @@ TRACERY - システム開発チーム向け知識共有サービス
  >>> resource.getrlimit(resource.RLIMIT_NOFILE)
  (4864, 9223372036854775807)
 
- 最初の数字がソフトリミット 
- 次の数字がハードリミット 
+ 最初の数字がソフトリミット
+ 次の数字がハードリミット
 
 * ソフトリミットは最低限これくらいまでに抑えて置けば良いという数値
 * ハードリミットはなんかありえないくらいデカイ数字
@@ -336,7 +340,7 @@ TRACERY - システム開発チーム向け知識共有サービス
 ==============================
 
 * いわゆる環境変数
-* 親プロセスより ``引き継ぎます`` 
+* 親プロセスより ``引き継ぎます``
 * 単純に変更しても親プロセスの環境変数には影響がないです。
 
 ::
@@ -432,7 +436,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 .. code-block:: python
 
   import os
-  
+
   if os.fork():
      print('spam')
   else:
@@ -460,16 +464,16 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 .. code-block:: python
 
   import os
-  
+
   print(f'親プロセス: {os.getpid()}')
-  
+
   if os.fork(): # <= 子プロセスはここから始まる
      print(f'親プロセス: {os.getpid()}')
   else:
      print(f'子プロセス: {os.getpid()}')
 
 .. code-block:: bash
- 
+
   // 実行結果
   親プロセス: 88220
   親プロセス: 88220
@@ -490,10 +494,10 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 
   import os
   import time
-  
+
   if os.fork():
      exit('親プロセスは死んだ') # 親プロセスはforkした瞬間に死ぬ
-  
+
   for i in range(5):
      time.sleep(1)
      print(f'孤児として生きてる {i}')
@@ -537,11 +541,11 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 
    import os
    import time
-   
+
    if os.fork():
       os.wait() # 子プロセスが終了するまで待つ
       exit('親プロセスは死んだ')
-   
+
    for i in range(5):
        time.sleep(1)
        print(f'孤児として生きてる {i}')
@@ -567,13 +571,13 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
  import sys
  import time
  import random
- 
+
  for _ in range(3):
      if os.fork() == 0:
          # ランダムで1〜5秒待つ子プロセスを生成する
          time.sleep(random.randint(1, 5))
          sys.exit()
- 
+
  for _ in range(3):
      pid = os.wait()
      print(f'終了プロセスID {pid}')
@@ -581,7 +585,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 複数のプロセスを待つ
 ========================
 
-:: 
+::
 
  終了プロセスID (26238, 0)
  終了プロセスID (26236, 0)
@@ -608,12 +612,12 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
   import os
   import time
   import sys
-  
+
   pid = os.fork()
   if pid == 0:
       time.sleep(1)
       sys.exit() # 先に子が終了
-   
+
   # os.waitしない
   print(pid) # => 終了した子プロセスID 92763
   time.sleep(10)
@@ -725,7 +729,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 
 * Goならわかるシステムプログラミング
 
-  * https://www.lambdanote.com/products/go 
+  * https://www.lambdanote.com/products/go
   * golangにおけるシステムコール周辺の話が充実してます
   * システムコールをモニタリングする方法とかもある
 
@@ -746,7 +750,7 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
 
 * プロセスはUnixの原子である。
 * あらゆるプログラムはプロセス上で動かす。
-* プロセスには様々な特性がある。 
+* プロセスには様々な特性がある。
 
 
 ご静聴ありがとうございました

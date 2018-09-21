@@ -115,6 +115,8 @@ html_theme = "gopher"
 # documentation.
 #html_theme_options = {}
 html_theme_options  = {
+   'canonical':'https://tell-k.github.io/pyconjp2018',
+
    'ogp_image':'https://tell-k.github.io/pyconjp2018/_static/img/ogp.png',
    'ogp_description': 'PyCon JP 2018 の発表資料です。Unixプロセスの基礎的な部分をPythonを通して紹介します。 多くのプログラマが経験するであろうUnix系のシステムで どのようにプログラムが動いてるかを簡単なPythonコードで 交えながら、初心者の方でもわかるようにお話します。',
 

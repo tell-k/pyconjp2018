@@ -739,11 +739,15 @@ via https://docs.python.org/ja/3/library/atexit.html#atexit-example
   * Pythonで学ぶ「詳解 UNIXプログラミング」(その0)
   * https://atsuoishimoto.hatenablog.com/entry/20110307/1299455750
 
+参考リンク
+==================================
+
+* https://github.com/tell-k/pyconjp2018/blob/master/reference.rst
+
 感謝
 =====================================
 
-* また参考にさせていただいた資料、本の著者の皆さま。本当ににありがとうございました。
-* 参考文献
+* 参考にさせていただいた資料、本の著者の皆さま。本当ににありがとうございました。
 
 まとめ
 ==================================

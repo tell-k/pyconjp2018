@@ -1,6 +1,6 @@
 Pycon JP 2018 の発表資料です。
 
-.. image:: https://tell-k.github.io/pyconjp2018/_static/img/ogp.png
+.. image:: https://tell-k.github.io/pyconjp2018/_static/img/ogp.png?new
 
 * Pythonでざっくり学ぶUnixプロセス
 * https://tell-k.github.io/pyconjp2018/

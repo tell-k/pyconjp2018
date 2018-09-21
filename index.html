@@ -2,17 +2,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ざっくりUnixプロセス</title>
+    <title>Pythonでざっくり学ぶUnixプロセス</title>
+    <meta name="description" content="PyCon JP 2018 の発表資料です。Unixプロセスの基礎的な部分をPythonを通して紹介します。 多くのプログラマが経験するであろうUnix系のシステムで どのようにプログラムが動いてるかを簡単なPythonコードで 交えながら、初心者の方でもわかるようにお話します。" >
+    <script>
+      var notesEnabled =true;
+      var sections = [];
+      var titleNotes = [];
+    </script>
     <meta charset='utf-8'>
+
+    <meta property="og:title" content="Pythonでざっくり学ぶUnixプロセス">
+    <meta property="og:description" content="PyCon JP 2018 の発表資料です。Unixプロセスの基礎的な部分をPythonを通して紹介します。 多くのプログラマが経験するであろうUnix系のシステムで どのようにプログラムが動いてるかを簡単なPythonコードで 交えながら、初心者の方でもわかるようにお話します。">
+    <meta property="og:image" content="https://tell-k.github.io/pyconjp2018/_static/img/ogp.png">
+    <meta property="og:url" content="https://tell-k.github.io/pyconjp2018">
+    <meta property="og:site_name" content="github">
+    <meta property="og:type" content="article">
+    <meta property="article:author" content="https://github.com/tell-k">
+
+    <meta name="twitter:title" content="Pythonでざっくり学ぶUnixプロセス">
+    <meta name="twitter:description" content="PyCon JP 2018 の発表資料です。Unixプロセスの基礎的な部分をPythonを通して紹介します。 多くのプログラマが経験するであろうUnix系のシステムで どのようにプログラムが動いてるかを簡単なPythonコードで 交えながら、初心者の方でもわかるようにお話します。">
+    <meta name="twitter:image" content="https://tell-k.github.io/pyconjp2018/_static/img/ogp.png">
+    <meta name="twitter:card" content="summary_large_image"">
+    <meta name="twitter:site" content="@github">
+    <meta name="twitter:creator" content="@tell_k">
+
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/notes.css" type="text/css" />
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+    </script>
   </head>
   <body style='display: none'>
     
-  <div class="section" id="unix">
-<h1>ざっくりUnixプロセス<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pythonunix">
+<h1>Pythonでざっくり学ぶUnixプロセス<a class="headerlink" href="#pythonunix" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">tell-k</div>
 <div class="line">Pycon JP 2018</div>
@@ -28,10 +53,11 @@
 <li><a class="reference external" href="https://twitter.com/tell_k">https://twitter.com/tell_k</a></li>
 <li><a class="reference external" href="https://tell-k.github.io/pyconjp2018/">https://tell-k.github.io/pyconjp2018/</a></li>
 </ul>
+<p class="speakernote">speaker note test</p>
 </div>
 <div class="section" id="connpass-it">
 <h2>connpass - エンジニアをつなぐIT勉強会支援プラットフォーム<a class="headerlink" href="#connpass-it" title="Permalink to this headline">¶</a></h2>
-<div class="figure" id="id64">
+<div class="figure" id="id63">
 <img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/okbyv2hm.png" />
 <p class="caption"><span class="caption-text"><a class="reference external" href="http://connpass.com/">http://connpass.com/</a></span></p>
 </div>
@@ -41,7 +67,7 @@
 </div>
 <div class="section" id="pyq-python">
 <h2>PyQ - 本気でプログラミングを学びたい人のPythonオンライン学習サービス<a class="headerlink" href="#pyq-python" title="Permalink to this headline">¶</a></h2>
-<div class="figure" id="id65">
+<div class="figure" id="id64">
 <a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/4d694a2da10c437fa0a4b69901f9d754.png" style="width: 80%;" /></a>
 <p class="caption"><span class="caption-text"><a class="reference external" href="https://pyq.jp/">https://pyq.jp/</a></span></p>
 </div>
@@ -70,34 +96,34 @@
 <li>サンプルコードがRubyだったので「じゃぁPythonに置き換えて紹介してみよう」と思った次第です</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>なるほどUnixプロセス<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="https://tatsu-zine.com/images/books/87/cover_l.jpg"><img alt="https://tatsu-zine.com/images/books/87/cover_l.jpg" src="https://tatsu-zine.com/images/books/87/cover_l.jpg" style="width: 40%;" /></a>
+<div class="section" id="unix">
+<h2>なるほどUnixプロセス<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/working_with_unix_process.jpg"><img alt="_images/working_with_unix_process.jpg" src="_images/working_with_unix_process.jpg" style="width: 40%;" /></a>
 </div>
-<div class="section" id="id4">
-<h2>対象<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>対象<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プログラミングを学び始めた人たち</li>
-<li>この辺の話をすっ飛ばしてしまったここまで辿り着いてしまった僕みたいな人たち</li>
+<li>この辺の話をすっ飛ばして、ここまで辿り着いてしまった僕みたいな人たち</li>
 <li>Unixプロセスとうまいことやっていきたい人たち</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>目標<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg"><img alt="https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg" src="https://kogera-tuntun.com/wp-content/uploads/2018/08/genbaneko.jpg" style="width: 50%;" /></a>
+<div class="section" id="id4">
+<h2>目標<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/genbaneko.jpg"><img alt="_images/genbaneko.jpg" src="_images/genbaneko.jpg" style="width: 50%;" /></a>
 <ul class="simple">
 <li><strong>なるほど</strong> とは言わないまでも <strong>ざっくりよしわかった</strong> となる感じ</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2>前提<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>前提<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>サンプルコードは Python3.7 です。</li>
 <li>OS は MacOS 10.13.6 です。</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h2>目次<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>目次<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>システムコール</li>
 <li>プロセス</li>
@@ -110,8 +136,8 @@
 <li>プロセスには名前がある</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h2>目次<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>目次<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスには終了コードがある</li>
 <li>プロセスは子プロセスを作れる</li>
@@ -125,11 +151,11 @@
 <li>まとめ</li>
 </ul>
 </div>
+<div class="section" id="id8">
+<h2>システムコール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id9">
 <h2>システムコール<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id10">
-<h2>システムコール<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>基本的にプログラムはCPUの二種類のモードで実行されます。</li>
 <li><strong>カーネル</strong> と <strong>ユーザーランド</strong><ul>
@@ -146,15 +172,15 @@
 <li>ユーザーランドからカーネルをやりとりできる仕組みを <strong>システムコール</strong> と呼ぶ</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h2>システムコール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
-<div class="figure" id="id66">
-<a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/56b6d68275ac4782905ed8833b73c8ac.png" style="width: 100%;" /></a>
+<div class="section" id="id10">
+<h2>システムコール<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="figure" id="id65">
+<a class="reference internal image-reference" href="_images/system_call.png"><img alt="_images/system_call.png" src="_images/system_call.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-text">via <a class="reference external" href="http://gihyo.jp/book/2018/978-4-7741-9607-7">［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識 第2章 &gt; システムコール</a></span></p>
 </div>
 </div>
-<div class="section" id="id12">
-<h2>システムコール<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>システムコール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>システムコールとかの使い方は <strong>man</strong> コマンドで調べられます。</li>
 <li><strong>open(2)</strong> の <strong>(2)</strong> の部分は man のセクションで、セクション2が <strong>システムコール</strong> です。</li>
@@ -167,11 +193,11 @@
 </li>
 </ul>
 </div>
+<div class="section" id="id12">
+<h2>プロセス<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id13">
 <h2>プロセス<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id14">
-<h2>プロセス<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスとはUnixシステムの肝であり原子です。</li>
 <li>あらゆる <strong>コードはプロセス上で実行されます</strong></li>
@@ -187,8 +213,8 @@
 <div class="section" id="id">
 <h2>プロセスにはIDがある<a class="headerlink" href="#id" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id15">
-<h2>プロセスID<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h2>プロセスID<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスには固有の識別子( <strong>プロセスID</strong> ) が必ずつけられてます。</li>
 <li>省略されて <code class="docutils literal notranslate"><span class="pre">pid</span></code> と表現されます。</li>
@@ -201,8 +227,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id16">
-<h2>プロセスIDの確認<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>プロセスIDの確認<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">ps(1)</span></code> コマンドでそのプロセスの状態を確認できます</li>
 </ul>
@@ -218,11 +244,11 @@ CMD  ... 実行コマンド
 </pre></div>
 </div>
 </div>
+<div class="section" id="id16">
+<h2>プロセスには親がいる<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id17">
 <h2>プロセスには親がいる<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id18">
-<h2>プロセスには親がいる<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスには親プロセスがいます。</li>
 <li><code class="docutils literal notranslate"><span class="pre">getppid(2)</span></code> で調べらる</li>
@@ -239,11 +265,11 @@ CMD  ... 実行コマンド
 </ol>
 <p>という親子関係のプロセスが作られます</p>
 </div>
-<div class="section" id="id19">
-<h2>プロセスにはファイルディスクリプタがある<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h2>プロセスにはファイルディスクリプタがある<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id20">
-<h2>ファイルディスクリプタとは？<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id19">
+<h2>ファイルディスクリプタとは？<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Unixシステムは全てをファイルとして扱う</li>
 <li>ソケットやパイプなどもファイル</li>
@@ -251,8 +277,8 @@ CMD  ... 実行コマンド
 <li><strong>ファイルディスクリプタ(ファイル記述子)</strong> とは、リソースを管理するための識別子で、識別するための番号が振られます。</li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h2>プロセスとともに生まれ・死ぬ<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h2>プロセスとともに生まれ・死ぬ<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><strong>リソース</strong> を開いた時などにファイルディスクリプタは生成・採番されます。</li>
 <li>関係ない他のプロセスには共有されない。</li>
@@ -263,8 +289,8 @@ CMD  ... 実行コマンド
 </pre></div>
 </div>
 </div>
-<div class="section" id="id22">
-<h2>なぜ3から採番される？<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h2>なぜ3から採番される？<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>同一のプロセスで新たにリソースを開いたり・書いたりしようとすると3から始まる。なぜなのか？</li>
 <li>プロセスは、 <strong>最初から3つのファイルディスクリプタを用意済み</strong> だから<ul>
@@ -284,8 +310,8 @@ CMD  ... 実行コマンド
 </pre></div>
 </div>
 </div>
-<div class="section" id="id23">
-<h2>ファイルディスクリプタは再利用される<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id22">
+<h2>ファイルディスクリプタは再利用される<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>ファイルディスクプリタとして管理するのは openされてるものだけ</li>
 <li>リソースを閉じたりしたら、ファイルディクリプタ番号は再利用される</li>
@@ -298,11 +324,11 @@ CMD  ... 実行コマンド
 </pre></div>
 </div>
 </div>
+<div class="section" id="id23">
+<h2>プロセスにはリソースの制限がある<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id24">
 <h2>プロセスにはリソースの制限がある<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id25">
-<h2>プロセスにはリソースの制限がある<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>リソースには諸々設定上の上限などがある</li>
 <li>カーネルによって <strong>1プロセス毎</strong> にリソースが制限が設定されてる</li>
@@ -323,8 +349,8 @@ CMD  ... 実行コマンド
 <li>ハードリミットはなんかありえないくらいデカイ数字</li>
 </ul>
 </div>
-<div class="section" id="id26">
-<h2>今日の声に出して読みたい日本語<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id25">
+<h2>今日の声に出して読みたい日本語<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png"><img alt="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png" src="https://dl.dropboxusercontent.com/spa/ghyn87yb4ejn5yy/c11b45b10a284276b07c0cd279b9bd8d.png" style="width: 100%;" /></a>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">resource.RLIM_INFINITY</span></code> の数値と一緒</li>
@@ -333,8 +359,8 @@ CMD  ... 実行コマンド
 <li>調べると割とポピュラーな数字らしいことがわかります。</li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h2>制限を変えることもできる<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id26">
+<h2>制限を変えることもできる<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">setrlimit(2)</span></code> を利用</li>
 <li>試しにファイルディスクリプタの上限数を3にする</li>
@@ -349,11 +375,11 @@ CMD  ... 実行コマンド
 </pre></div>
 </div>
 </div>
+<div class="section" id="id27">
+<h2>プロセスには環境がある<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id28">
 <h2>プロセスには環境がある<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id29">
-<h2>プロセスには環境がある<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>いわゆる環境変数</li>
 <li>親プロセスより <code class="docutils literal notranslate"><span class="pre">引き継ぎます</span></code></li>
@@ -364,8 +390,8 @@ pyconjp2018
 </pre></div>
 </div>
 </div>
-<div class="section" id="id30">
-<h2>プロセスには引数がある<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id29">
+<h2>プロセスには引数がある<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスもといコマンドラインは引数を受け取れます。</li>
 <li>引数は <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> に実行ファイル名とともに格納されている</li>
@@ -382,11 +408,11 @@ pyconjp2018
 </pre></div>
 </div>
 </div>
+<div class="section" id="id30">
+<h2>プロセスには名前がある<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id31">
 <h2>プロセスには名前がある<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id32">
-<h2>プロセスには名前がある<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスに名前があり、取得したり、変更したりが可能</li>
 <li>Rubyでは <code class="docutils literal notranslate"><span class="pre">$PROGRAM_NAME</span></code> or <code class="docutils literal notranslate"><span class="pre">$0</span></code> でプロセス名を取得設定可能</li>
@@ -403,11 +429,11 @@ pyconjp2018
 </pre></div>
 </div>
 </div>
+<div class="section" id="id32">
+<h2>プロセスには終了コードがある<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id33">
 <h2>プロセスには終了コードがある<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id34">
-<h2>プロセスには終了コードがある<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>0 を返すのが慣習的に <strong>正常終了</strong></li>
 <li>それ以外を返すのが慣習的に <strong>異常終了</strong></li>
@@ -428,11 +454,11 @@ pyconjp2018
 </div>
 <p>via <a class="reference external" href="https://docs.python.org/ja/3/library/atexit.html#atexit-example">https://docs.python.org/ja/3/library/atexit.html#atexit-example</a></p>
 </div>
+<div class="section" id="id34">
+<h2>プロセスは子プロセスを作れる<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id35">
 <h2>プロセスは子プロセスを作れる<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id36">
-<h2>プロセスは子プロセスを作れる<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">fork(2)</span></code> システムコールで子プロセスが作れる</li>
 <li>子プロセスは</li>
@@ -447,8 +473,8 @@ pyconjp2018
 <li>Pythonでは <code class="docutils literal notranslate"><span class="pre">os.fork</span></code> を利用することで子プロセスを作れます。</li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h2>実行するとどうなるか?<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id36">
+<h2>実行するとどうなるか?<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">():</span>
@@ -458,8 +484,8 @@ pyconjp2018
 </pre></div>
 </div>
 </div>
-<div class="section" id="id38">
-<h2>こうなる<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id37">
+<h2>こうなる<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>// 実行結果
 spam
 ham
@@ -472,8 +498,8 @@ ham
 <li>子プロセス での <code class="docutils literal notranslate"><span class="pre">os.fork</span></code> の 戻り値は <code class="docutils literal notranslate"><span class="pre">0</span></code> になる</li>
 </ul>
 </div>
-<div class="section" id="id39">
-<h2>確認<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id38">
+<h2>確認<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;親プロセス: {os.getpid()}&#39;</span><span class="p">)</span>
@@ -491,11 +517,11 @@ ham
 </pre></div>
 </div>
 </div>
+<div class="section" id="id39">
+<h2>孤児プロセス<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id40">
 <h2>孤児プロセス<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id41">
-<h2>孤児プロセス<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>子プロセスは端末からの制御( <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> )とかは基本受け付けない。</li>
 <li>親が死んでも子プロセスは生き続けます。</li>
@@ -514,8 +540,8 @@ ham
 </pre></div>
 </div>
 </div>
-<div class="section" id="id42">
-<h2>孤児プロセス - 実行結果<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id41">
+<h2>孤児プロセス - 実行結果<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python orphan_process.py
 親プロセスは死んだ
 $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Terminalに戻る
@@ -526,11 +552,11 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 </pre></div>
 </div>
 </div>
+<div class="section" id="id42">
+<h2>プロセスは優しい<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id43">
 <h2>プロセスは優しい<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id44">
-<h2>プロセスは優しい<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">fork(2)</span></code> は親の完全なコピーを生成する</li>
 <li>メモリ上のデータもコピーするので単純に2倍となる</li>
@@ -541,8 +567,8 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 <li><a class="reference external" href="http://gihyo.jp/book/2018/978-4-7741-9607-7">［試して理解］Linuxのしくみ ～実験と図解で学ぶOSとハードウェアの基礎知識</a> 第5章に詳しく乗ってます。</li>
 </ul>
 </div>
-<div class="section" id="id45">
-<h2>プロセスは待てる<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id44">
+<h2>プロセスは待てる<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>親プロセスは、子プロセスが終わるまで待てる</li>
 <li><code class="docutils literal notranslate"><span class="pre">os.wait</span></code> で待つことが可能</li>
@@ -569,8 +595,8 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 </pre></div>
 </div>
 </div>
-<div class="section" id="id46">
-<h2>複数のプロセスを待つ<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id45">
+<h2>複数のプロセスを待つ<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">wait</span></code> は子プロセスのが <strong>どれかが終わるまで待つ</strong></li>
 </ul>
@@ -591,19 +617,19 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 </pre></div>
 </div>
 </div>
-<div class="section" id="id47">
-<h2>複数のプロセスを待つ<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id46">
+<h2>複数のプロセスを待つ<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">終了プロセスID</span> <span class="p">(</span><span class="mi">26238</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">終了プロセスID</span> <span class="p">(</span><span class="mi">26236</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">終了プロセスID</span> <span class="p">(</span><span class="mi">26237</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id48">
-<h2>ゾンビプロセス<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id47">
+<h2>ゾンビプロセス<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id49">
-<h2>ゾンビプロセスとは<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id48">
+<h2>ゾンビプロセスとは<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>子プロセスが先に終了</li>
 <li>親プロセスが <code class="docutils literal notranslate"><span class="pre">wait</span></code> で子プロセスの終了ステータスを要求しない</li>
@@ -612,8 +638,8 @@ $ 孤児として生きてる <span class="m">0</span>  &lt;- ここで一旦Ter
 <li>このような状態を <strong>ゾンビプロセス</strong> という</li>
 </ul>
 </div>
-<div class="section" id="id50">
-<h2>ゾンビプロセス確認<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id49">
+<h2>ゾンビプロセス確認<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -636,26 +662,26 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id51">
-<h2>孤児とゾンビの違いは？<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id50">
+<h2>孤児とゾンビの違いは？<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>孤児は先に親が死んでしまったプロセス</li>
 <li>ゾンビは先に自分が死んでwait待ちのプロセス</li>
 </ul>
 </div>
+<div class="section" id="id51">
+<h2>デーモンプロセス<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="id52">
 <h2>デーモンプロセス<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id53">
-<h2>デーモンプロセス<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>端末から制御されるのではなく、バックグラウンドで動作するプロセス</li>
 <li>Webサーバやデータベースサーバのように常に動作しているようなプロセス</li>
 <li>システム上の一番最初のプロセスは <code class="docutils literal notranslate"><span class="pre">init</span></code> プロセス (pid=1, ppid=0)</li>
 </ul>
 </div>
-<div class="section" id="id54">
-<h2>デーモン化<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id53">
+<h2>デーモン化<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>デーモン化(<code class="docutils literal notranslate"><span class="pre">daemonize</span></code>)</li>
 <li>デーモン化はプロセスを完全に制御端末やシグナルから切り離したい</li>
@@ -663,8 +689,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 <li>see <a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3_(%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2)">デーモン_(ソフトウェア)</a></li>
 </ul>
 </div>
-<div class="section" id="id56">
-<h2>デーモン化<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id55">
+<h2>デーモン化<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 子プロセス生成</span>
 <span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">pid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -696,8 +722,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id57">
-<h2>標準のデーモン化<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id56">
+<h2>標準のデーモン化<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>PEP 3143 – Standard daemon process library(<a class="reference external" href="https://www.python.org/dev/peps/pep-3143/">https://www.python.org/dev/peps/pep-3143/</a>)</li>
 <li>一応PEPにはある。ステータスは Deffered(繰越？)</li>
@@ -707,8 +733,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </li>
 </ul>
 </div>
-<div class="section" id="id58">
-<h2>今日話さなかったこと<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id57">
+<h2>今日話さなかったこと<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>シグナルの話</li>
 <li>プロセス間通信の話</li>
@@ -717,8 +743,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 <li>preforkサーバの話</li>
 </ul>
 </div>
-<div class="section" id="id59">
-<h2>参考書籍<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id58">
+<h2>参考書籍<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>なるほどUnixプロセス ― Rubyで学ぶUnixの基礎<ul>
 <li><a class="reference external" href="https://tatsu-zine.com/books/naruhounix">https://tatsu-zine.com/books/naruhounix</a></li>
@@ -736,8 +762,8 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </li>
 </ul>
 </div>
-<div class="section" id="id60">
-<h2>参考書籍<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id59">
+<h2>参考書籍<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Goならわかるシステムプログラミング<ul>
 <li><a class="reference external" href="https://www.lambdanote.com/products/go">https://www.lambdanote.com/products/go</a></li>
@@ -753,33 +779,34 @@ $ ps -ho pid,state -p <span class="m">92763</span>
 </li>
 </ul>
 </div>
-<div class="section" id="id61">
-<h2>感謝<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id60">
+<h2>感謝<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>また参考にさせていただいた資料、本の著者の皆さま。本当ににありがとうございました。</li>
 <li>参考文献</li>
 </ul>
 </div>
-<div class="section" id="id62">
-<h2>まとめ<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id61">
+<h2>まとめ<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>プロセスはUnixの原子である。</li>
 <li>あらゆるプログラムはプロセス上で動かす。</li>
 <li>プロセスには様々な特性がある。</li>
 </ul>
 </div>
-<div class="section" id="id63">
-<h2>ご静聴ありがとうございました<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id62">
+<h2>ご静聴ありがとうございました<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
 
+  </body>
   <div id="help">
       Use the left and right arrow keys or click the left and right
       edges of the page to navigate between slides.<br>
       (Press 'H' or navigate to hide this message.)
   </div>
-  </body>
-  <script type="text/javascript" src="_static/js/initialize.js"></script>
+  <script type="text/javascript" src="_static/js/init.js"></script>
+  <script type="text/javascript" src="_static/js/notes.js"></script>
   <script type="text/javascript" src="_static/js/slides.js"></script>
 </html>

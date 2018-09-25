@@ -17,7 +17,7 @@ Pythonでざっくり学ぶUnixプロセス
 * https://twitter.com/tell_k
 * https://tell-k.github.io/pyconjp2018/
 
-.. rst-class:: speakernote
+.. rst-class:: presenter-notes
 
   speaker note test
 
